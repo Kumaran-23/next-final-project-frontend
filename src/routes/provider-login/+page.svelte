@@ -2,7 +2,7 @@
     import { alertStore, showAlert } from '../../alertStore.js'
     import Alert from '../../Alert.svelte'
     import { writable } from 'svelte/store';
-    import { login } from '../../utils/auth.js'
+    import { providerLogin } from '../../utils/auth.js'
   
     let email = '';
     let password = '';
@@ -11,7 +11,7 @@
     const alert = $alertStore;
   
     async function handleSubmit() {
-      const response = await login(email, password);
+      const response = await providerLogin(email, password);
   }
   
   </script>
@@ -30,7 +30,7 @@
       </div>
       
       <div class="text-center mb-4">
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-md" on:click={handleSubmit}>Sign In</button>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded-md" on:click={handleSubmit}>Provider Sign In</button>
       </div>
     </form>
     {#if $alertStore.text}
