@@ -16,8 +16,9 @@ export async function userLogin(email, password) {
   
       if (response.ok) {
         // User logged in successfully
-        // Retrieve the access token from the response header
-        const accessToken = response.headers.get('Authorization');
+        // Retrieve the access token from the response body
+        const data = await response.json();
+        const accessToken = data.accessToken
   
         // Store the access token in the accessTokenStore
         accessTokenStore.set(accessToken);
@@ -66,8 +67,9 @@ export async function providerLogin(email, password) {
 
     if (response.ok) {
       // User logged in successfully
-      // Retrieve the access token from the response header
-      const accessToken = response.headers.get('Authorization');
+      // Retrieve the access token from the response body
+      const data = await response.json();
+      const accessToken = data.accessToken
 
       // Store the access token in the accessTokenStore
       accessTokenStore.set(accessToken);

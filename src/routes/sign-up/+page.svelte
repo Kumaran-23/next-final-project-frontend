@@ -1,4 +1,4 @@
-<script>
+<script></script>
     import { alertStore, showAlert } from '../../alertStore.js'
     import Alert from '../../Alert.svelte';
     import { writable } from 'svelte/store';
@@ -37,7 +37,7 @@
         }
       };
   
-    </script>
+</script>
     
     <form class="max-w-sm mx-auto">
       <div class="mb-4">

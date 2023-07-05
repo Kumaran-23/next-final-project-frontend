@@ -11,7 +11,7 @@
     const alert = $alertStore;
   
     async function handleSubmit() {
-      const response = await userogin(email, password);
+      const response = await userLogin(email, password);
   }
   
   </script>
