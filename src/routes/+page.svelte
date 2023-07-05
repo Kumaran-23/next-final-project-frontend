@@ -30,7 +30,7 @@
         await goto('/');
     }
 
-  </script>
+</script>
 
 <style>
     .header {
