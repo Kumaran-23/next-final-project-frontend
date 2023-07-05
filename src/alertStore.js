@@ -7,7 +7,7 @@ export function showAlert(text, type) {
 
     setTimeout(() => {
         clearAlert();
-      }, 3000);
+      }, 2500);
   }
   
   export function clearAlert() {
