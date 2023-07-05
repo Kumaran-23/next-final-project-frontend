@@ -44,7 +44,7 @@
       {#if $isLoggedIn}
       <button class="text-white" on:click={() => handleLogout()}>SIGN OUT</button>
     {:else}
-      <button class="text-white" on:click|preventDefault={() => goto('/sign-up')}>BECOME A PROVIDER</button>
+      <button class="text-white" on:click|preventDefault={() => goto('/provider/new')}>BECOME A PROVIDER</button>
       <button class="text-white" on:click|preventDefault={() => goto('/user-login')}>USER LOGIN</button>
       <button class="text-white" on:click|preventDefault={() => goto('/provider-login')}>Provider LOGIN</button>
     {/if}    
