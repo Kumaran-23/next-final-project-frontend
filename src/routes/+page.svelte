@@ -45,9 +45,7 @@
       <button class="text-white" on:click={() => handleLogout()}>SIGN OUT</button>
     {:else}
       <button class="text-white" on:click|preventDefault={() => goto('/sign-up')}>SIGN UP</button>
-      <!-- <button class="text-white" on:click|preventDefault={() => goto('/user-sign-up')}>USER SIGNUP</button> -->
       <button class="text-white" on:click|preventDefault={() => goto('/login')}>LOGIN</button>
-      <!-- <button class="text-white" on:click|preventDefault={() => goto('/provider-login')}>PROVIDER LOGIN</button> -->
     {/if}    
     </div>
   </header>
