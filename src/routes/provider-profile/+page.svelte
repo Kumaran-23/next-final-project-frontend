@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
   import { onMount } from 'svelte';
 
   let provider = {};
@@ -38,4 +38,4 @@
   {:else}
     <p>Loading provider data...</p>
   {/if}
-</main>
+</main> -->
