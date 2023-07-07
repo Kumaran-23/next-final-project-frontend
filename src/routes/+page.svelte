@@ -1,6 +1,6 @@
 <script>
     import { accessTokenStore, logout } from '../utils/auth.js';
-	import { onDestroy, onMount } from 'svelte';
+	  import { onDestroy, onMount } from 'svelte';
     import { writable } from 'svelte/store';
     import { goto } from '$app/navigation';
   
@@ -30,7 +30,7 @@
         await goto('/');
     }
 
-  </script>
+</script>
 
 <style>
     .header {

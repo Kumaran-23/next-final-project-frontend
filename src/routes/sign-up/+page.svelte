@@ -37,7 +37,7 @@
         }
       };
   
-    </script>
+</script>
     
     <form class="max-w-sm mx-auto">
       <div class="mb-4">

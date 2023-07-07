@@ -12,6 +12,12 @@
   
     async function handleSubmit() {
       const response = await providerLogin(email, password);
+
+      if (response.status === 200) {
+        showAlert('Login successful', 'success');
+      } else {
+        showAlert("Incorrect email or password", 'failure')
+      }
   }
   
   </script>
