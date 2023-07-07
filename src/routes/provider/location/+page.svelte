@@ -2,7 +2,8 @@
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
-  import { getTokenFromLocalStorage, accessTokenStore } from '../../../utils/auth';
+  import { getTokenFromLocalStorage } from '../../../utils/auth';
+  import { showAlert } from '../../../alertStore'
 
   let map;
   let searchInput;
@@ -54,13 +55,34 @@
     }
   }
 
+  function isLocationWithinMalaysia(location) {
+  const malaysiaBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(1.1596, 99.6433), // Southwest bounds (latitude, longitude)
+    new google.maps.LatLng(7.5249, 104.2666) // Northeast bounds (latitude, longitude)
+  );
+
+  return malaysiaBounds.contains(location);
+}
+
   function searchAddress() {
     const geocoder = new google.maps.Geocoder();
     const address = searchInput.value;
 
-    geocoder.geocode({ address }, (results, status) => {
+     const componentRestrictions = {
+    country: 'MY' 
+  };
+
+    geocoder.geocode({ address, componentRestrictions }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
         const location = results[0].geometry.location;
+
+        console.log(1)
+        if (!isLocationWithinMalaysia(location)) {
+        console.log(3)
+        window.alert('Search restricted to Malaysia only.');
+        return;
+      }
+
         map.setCenter(location);
         new google.maps.Marker({
           map,
@@ -80,15 +102,29 @@
     script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCoo4Tzwqzhb-ghGZjJx_R3iaaW0a7vx9s&callback=initMap`;
     script.defer = true;
     script.async = true;
-    window.initMap = () => {
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 37.7749, lng: -122.4194 },
-        zoom: 12,
-      });
+     window.initMap = () => {
+    const malaysiaBounds = {
+      north: 7.5249,
+      south: 1.1596,
+      west: 99.6433,
+      east: 104.2666
     };
+
+    const ttdiLatLng = { lat: 3.1496, lng: 101.6255 };
+
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: ttdiLatLng,
+      zoom: 14,
+      restriction: {
+        latLngBounds: malaysiaBounds,
+        strictBounds: false
+      }
+    });
+  };
 
     document.head.appendChild(script);
   });
+
 </script>
 
 <style>
