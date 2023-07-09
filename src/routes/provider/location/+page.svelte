@@ -8,6 +8,7 @@
   let map;
   let searchInput;
   let locationSelected;
+  let marker;
 
   async function addressConfirmed() {
     if (!locationSelected) {
@@ -55,15 +56,6 @@
     }
   }
 
-  function isLocationWithinMalaysia(location) {
-  const malaysiaBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(1.1596, 99.6433), // Southwest bounds (latitude, longitude)
-    new google.maps.LatLng(7.5249, 104.2666) // Northeast bounds (latitude, longitude)
-  );
-
-  return malaysiaBounds.contains(location);
-}
-
   function searchAddress() {
     const geocoder = new google.maps.Geocoder();
     const address = searchInput.value;
@@ -76,18 +68,17 @@
       if (status === google.maps.GeocoderStatus.OK) {
         const location = results[0].geometry.location;
 
-        console.log(1)
-        if (!isLocationWithinMalaysia(location)) {
-        console.log(3)
-        window.alert('Search restricted to Malaysia only.');
-        return;
-      }
-
-        map.setCenter(location);
-        new google.maps.Marker({
+        if (marker) {
+        marker.setPosition(location);
+      } else {
+        marker = new google.maps.Marker({
           map,
           position: location,
         });
+      }
+
+      map.setCenter(location);
+
 
         locationSelected = location;
         console.log(JSON.stringify(locationSelected))
@@ -114,7 +105,7 @@
 
     map = new google.maps.Map(document.getElementById('map'), {
       center: ttdiLatLng,
-      zoom: 14,
+      zoom: 13,
       restriction: {
         latLngBounds: malaysiaBounds,
         strictBounds: false
