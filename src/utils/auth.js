@@ -4,6 +4,14 @@ import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 
 export const accessTokenStore = writable(false);
 
+export function getTokenFromLocalStorage() {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+        return(accessToken);
+    }
+    return null;
+}
+
 export async function userLogin(email, password) {
     try {
       const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/auth', {

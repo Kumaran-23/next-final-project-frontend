@@ -1,12 +1,11 @@
 <script>
-    import { navigate } from 'svelte-routing';
   
-    function handleProviderSignUp() {
-        window.location.href = '/provider-sign-up';
+    function handleProviderLogin() {
+        window.location.href = '/provider-login';
     }
   
-    function handleUserSignUp() {
-        window.location.href = '/user-sign-up';
+    function handleUserLogin() {
+        window.location.href = '/user-login';
     }
   </script>
   
@@ -14,8 +13,8 @@
     <div class="bg-gray-100 p-6 rounded-lg" style="margin-top: 1vh;">
       <h2 class="text-2xl font-bold mb-4 text-center">Final Project</h2>
       <div class="button-container flex flex-col items-center">
-        <button class="button button-sm" on:click={handleProviderSignUp}>Become a Provider</button>
-        <button class="button button-sm" on:click={handleUserSignUp}>Create a User Account</button>
+        <button class="button button-sm" on:click={handleProviderLogin}>Provider Login</button>
+        <button class="button button-sm" on:click={handleUserLogin}>User Login</button>
       </div>
       <div class="footer flex justify-center items-center mt-4">
         <p class="text-sm text-gray-500 text-center">By signing up you agree to our Terms of Use and Privacy Policy.</p>
