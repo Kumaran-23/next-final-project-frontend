@@ -27,12 +27,14 @@ export async function userLogin(email, password) {
         // Retrieve the access token from the response body
         const data = await response.json();
         const accessToken = data.accessToken
-  
-        // Store the access token in the accessTokenStore
-        accessTokenStore.set(accessToken);
+      const userId = data.userId
 
-        // Store the access token in local storage
-        localStorage.setItem('accessToken', accessToken)
+      // Store the access token in the accessTokenStore
+      accessTokenStore.set(accessToken);
+
+      // Store the access token in local storage
+      localStorage.setItem('accessToken', accessToken)
+      localStorage.setItem('userId', userId)
 
         showAlert('Success', 'success')
   
@@ -58,6 +60,9 @@ export function logout() {
     // Clear the access token from the store and local storage
     accessTokenStore.set(false);
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('providerId');
+    localStorage.removeItem('userId');
+
     showAlert('Logged out successfully', 'success');
 }
 
@@ -77,12 +82,14 @@ export async function providerLogin(email, password) {
       // Retrieve the access token from the response body
       const data = await response.json();
       const accessToken = data.accessToken
+      const providerId = data.providerId
 
       // Store the access token in the accessTokenStore
       accessTokenStore.set(accessToken);
 
       // Store the access token in local storage
       localStorage.setItem('accessToken', accessToken)
+      localStorage.setItem('providerId', providerId)
 
       showAlert('Success', 'success')
 
