@@ -1,73 +1,162 @@
-<script>
-    import { alertStore, showAlert } from '../../alertStore.js'
-    import Alert from '../../Alert.svelte'
-    import { writable } from 'svelte/store';
-  
-      let firstName = '';
-      let lastName = ''
-      let email = '';
-      let password = '';
-  
-      const { subscribe, set } = writable({text: '', type: ''});
-      const alert = $alertStore;
-  
-      // const alert = writable({ text: '', type: '' });
+     <script>
+      import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
+      import { goto } from '$app/navigation';
+      import { providerLogin } from '../../utils/auth.js';
+      import { uploadMedia } from '../../utils/s3-uploader.js';
+      let formErrors = {};
+      let clicked = false;
     
-      async function handleSubmit() {
-        try {
-          const response = await fetch('http://localhost:8080/api/providers', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ firstName, lastName, email, password })
-          });
-  
-          if (response.ok) {
-            showAlert('User created successfully', 'success');
-            setTimeout(() => {
-              window.location.href = '/';}, 5000); // Delay of 2000 milliseconds (2 seconds)
-  
-          } else {
-            const errorData = await response.json();
-            showAlert(`Error: ${errorData.error}`, 'failure');
-          }
-        } catch (error) {
-          showAlert(`Error: ${error}`, 'failure');
+      function postSignUp() {
+        goto('/');
+      }
+    
+      async function createProvider(evt) {
+        evt.preventDefault()
+        clicked = true;
+        const [fileName, fileUrl] = await uploadMedia(evt.target['file'].files[0]);
+    
+        if (evt.target['password'].value != evt.target['password-confirmation'].value) {
+          formErrors['password'] = { message: 'Password confirmation does not match' };
+          clicked = false;
+          console.log(clicked);
+          return;
         }
-      };
-  
-</script>
     
-    <form class="max-w-sm mx-auto">
-      <div class="mb-4">
-          <label class="block mb-2" for="firstName">First Name</label>
-          <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="firstName" id="firstName" bind:value={firstName}>
-        </div>
-  
-        <div class="mb-4">
-          <label class="block mb-2" for="lastName">Last Name</label>
-          <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="lastName" id="lastName" bind:value={lastName}>
-        </div>
-  
-  
-      <div class="mb-4">
-        <label class="block mb-2" for="email">Email</label>
-        <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="email" id="email" bind:value={email}>
-      </div>
+        const providerData = {
+          name: evt.target['name'].value,
+          email: evt.target['email'].value,
+          password: evt.target['password'].value,
+          hourly_rate: parseInt(evt.target['hourly_rate'].value),
+          description: evt.target['description'].value,
+          photo_url: fileUrl
     
-      <div class="mb-4">
-        <label class="block mb-2" for="password">Password</label>
-        <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="password" id="password" bind:value={password}>
-      </div>
+        };
     
-      <div class="text-center mb-4">
-        <button class="bg-blue-500 text-white px-4 py-2 rounded-md" on:click={handleSubmit}>Sign Up</button>
-      </div>
-      {#if $alertStore.text}
-        <Alert bind:text={$alertStore.text} bind:type={$alertStore.type} />
-      {/if}
-  
-  
-    </form>
+        const resp = await fetch(PUBLIC_BACKEND_BASE_URL + '/providers', {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(providerData)
+        });
     
+        if (resp.status == 200) {
+          const res = await providerLogin(providerData.email, providerData.password);
+    
+          if (res.success) {
+            postSignUp();
+          }
+          
+        //}
+          else {
+          clicked = false;
+          const res = await resp.json();
+          formErrors = res.data;  
+        } 
+      }
+    }
+    </script>
+    
+    <svelte:head>
+      <script src="/aws-sdk-s3.min.js"></script>
+    </svelte:head>
+    
+    <div class="">
+      <h1 class="text-center text-xl pt-[100px]">Create an Account</h1>
+    <div class="text-center hover">
+        <a class="link-hover italic text-xs" href="/login">Already have an account? Click here to login instead!.</a>
+    </div>
+    <div class="flex justify-center items-center mt-8">
+        <form on:submit={createProvider} class="w-1/3">
+            <div class="form-control w-full">
+                <label class="label" for="name">
+                    <span class="label-text ">Username</span>
+                </label>
+                <input type="text" name="name" placeholder="johndoe" class="input input-bordered w-full" required />
+                {#if 'name' in formErrors}
+                <label class="label" for="name">
+                    <span class="label-text-alt text-red-500">{formErrors['name'].message}</span>
+                </label>
+                {/if}
+            </div>
+    
+            <div class="form-control w-full">
+                <label class="label" for="email">
+                    <span class="label-text ">Email</span>
+                </label>
+                <input type="email" name="email" placeholder="john@example.com" class="input input-bordered w-full" required />
+                {#if 'email' in formErrors}
+                <label class="label" for="email">
+                    <span class="label-text-alt text-red-500">{formErrors['email'].message}</span>
+                </label>
+                {/if}
+            </div>
+    
+            <div class="form-control w-full">
+                <label class="label" for="password">
+                    <span class="label-text ">Password</span>
+                </label>
+                <input type="password" name="password" placeholder="" class="input input-bordered w-full" required />
+                {#if 'password' in formErrors}
+                <label class="label" for="password">
+                    <span class="label-text-alt text-red-500">{formErrors['password'].message}</span>
+                </label>
+                {/if}
+            </div>
+    
+            <div class="form-control w-full">
+                <label class="label" for="password">
+                    <span class="label-text ">Confirm Password</span>
+                </label>
+                <input type="password" name="password-confirmation" placeholder="" class="input input-bordered w-full" required />
+                {#if 'password' in formErrors}
+                <label class="label" for="password">
+                    <span class="label-text-alt text-red-500">{formErrors['password'].message}</span>
+                </label>
+                {/if}
+            </div>
+    
+            <div class="form-control w-full">
+                <label class="label" for="hourly_rate">
+                    <span class="label-text ">Hourly Rate</span>
+                </label>
+                <input type="text" name="hourly_rate" placeholder="" class="input input-bordered w-full" required />
+                {#if 'password' in formErrors}
+                <label class="label" for="password">
+                    <span class="label-text-alt text-red-500">{formErrors['password'].message}</span>
+                </label>
+                {/if}
+            </div>
+    
+            <div class="form-control w-full">
+                <label class="label" for="description">
+                    <span class="label-text ">Description</span>
+                </label>
+                <input type="textarea" name="description" placeholder="Hi my name is John, i am 32 years old" class="input input-bordered w-full" required />
+                {#if 'password' in formErrors}
+                <label class="label" for="desription">
+                    <span class="label-text-alt text-red-500">{formErrors['password'].message}</span>
+                </label>
+                {/if}
+            </div>
+    
+            <div class="form-control w-full mt-5 mb-5">
+            <input type="file" name="file" class="" />
+            {#if 'file' in formErrors}
+              <label class="label" for="file">
+                <span class="label-text-alt text-red-500">{formErrors['file']}</span>
+              </label>
+            {/if}
+          </div>
+    
+            <div class="form-control w-full mt-4">
+              {#if clicked}
+                <button class="btn btn-md btn-primary hover:btn-accent loading">Create a Provider Account</button>
+              {:else}
+                <button class="btn btn-md btn-primary hover:btn-accent">Create a Provider Account</button>
+              {/if}
+            </div>
+        </form>
+    </div>
+    </div>
