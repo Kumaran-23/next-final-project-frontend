@@ -48,6 +48,46 @@ export async function userLogin(email, password) {
     }
 }
 
+export async function userLoginForm(email, password) {
+  try {
+    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.ok) {
+      // User logged in successfully
+      // Retrieve the access token from the response body
+      const data = await response.json();
+      const accessToken = data.accessToken
+    const userId = data.userId
+
+    // Store the access token in the accessTokenStore
+    accessTokenStore.set(accessToken);
+
+    // Store the access token in local storage
+    localStorage.setItem('accessToken', accessToken)
+    localStorage.setItem('userId', userId)
+
+      showAlert('Success', 'success')
+
+    } else if (response.status === 401) {
+      showAlert('Invalid credentials')
+    } else {
+      const errorData = await response.json();
+      showAlert(`Error: ${errorData.error}`, 'failure');
+    }
+
+    return response;
+  } catch (error) {
+      showAlert(`Error: ${error}`, 'failure')
+      throw error;
+  }
+}
+
 export function logout() {
     // Clear the access token from the store and local storage
     accessTokenStore.set(false);
