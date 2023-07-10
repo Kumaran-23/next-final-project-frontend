@@ -1,4 +1,5 @@
 import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
+import { getTokenFromLocalStorage } from './auth.js';
 
 export const time = [
   { id: "null", t: "Select" },
@@ -22,19 +23,21 @@ export const time = [
 ];
 
 export async function handleCreateAvailability(availability) {
+  const token = getTokenFromLocalStorage();
+
   try {
     await fetch(PUBLIC_BACKEND_BASE_URL + "/availability", {
       method: "POST",
       body: JSON.stringify({
-        providerId: localStorage.getItem("providerId"),
+        //providerId: localStorage.getItem("providerId"),
         availability,
       }),
       headers: {
-        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
   } catch (err) {
     console.error(err);
-  }
+  };
 };
