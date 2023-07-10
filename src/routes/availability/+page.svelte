@@ -1,49 +1,50 @@
 <script>
-    import { time, handleCreateAvailability } from "../../utils/time.js";
-    import { createEventDispatcher } from "svelte";
+  import { time, handleCreateAvailability } from "../../utils/time.js";
+  import { createEventDispatcher } from "svelte";
   
-    let availability = [
-      { day: "Sun", startAt: "", endAt: "" },
-      { day: "Mon", startAt: "", endAt: "" },
-      { day: "Tue", startAt: "", endAt: "" },
-      { day: "Wed", startAt: "", endAt: "" },
-      { day: "Thu", startAt: "", endAt: "" },
-      { day: "Fri", startAt: "", endAt: "" },
-      { day: "Sat", startAt: "", endAt: "" },
-    ];
+  let availability = [
+    { day: "Sun", startAt: "", endAt: "" },
+    { day: "Mon", startAt: "", endAt: "" },
+    { day: "Tue", startAt: "", endAt: "" },
+    { day: "Wed", startAt: "", endAt: "" },
+    { day: "Thu", startAt: "", endAt: "" },
+    { day: "Fri", startAt: "", endAt: "" },
+    { day: "Sat", startAt: "", endAt: "" },
+  ];
   
-    const handleTimeChange = (event, id) => {
-      const { name, value } = event.target;
+  const handleTimeChange = (event, id) => {
+    const { name, value } = event.target;
 
-      // Handle placeholder values
-      if (value === "Select") return;
+    // Handle placeholder values
+    if (value === "Select") return;
 
-      // Create a new array with the modified values
-      availability = availability.map((item, index) => {
-        if (index === id) {
-          return {
-            ...item,
-            [name]: value,
-          };
-        }
-        return item;
-      });
-    };
-  
-    const handleSaveAvailability = () => {
-      if (availability.length > 0) {
-        console.log(availability);
-        handleCreateAvailability(availability);
-      } else {
-        toast.error("Select your availability");
+    // Create a new array with the modified values
+    availability = availability.map((item, index) => {
+      if (index === id) {
+        return {
+          ...item,
+          [name]: value,
+        };
       }
-    };
+      return item;
+    });
+  };
   
-    const dispatch = createEventDispatcher();
-  
-    $: {
-      dispatch("availability-updated", availability);
+  const handleSaveAvailability = () => {
+    if (availability.length > 0) {
+
+      console.log(availability);
+      handleCreateAvailability(availability);
+    } else {
+      toast.error("Select your availability");
     }
+  };
+  
+  const dispatch = createEventDispatcher();
+  
+  $: {
+    dispatch("availability-updated", availability);
+  }
 </script>
 
 <div class="container mx-auto px-24 py-12">

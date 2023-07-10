@@ -26,7 +26,7 @@ export async function handleCreateAvailability(availability) {
     await fetch(PUBLIC_BACKEND_BASE_URL + "/availability", {
       method: "POST",
       body: JSON.stringify({
-        //providerId: localStorage.getItem("providerId"),
+        providerId: localStorage.getItem("providerId"),
         availability,
       }),
       headers: {
