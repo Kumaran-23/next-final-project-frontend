@@ -1,5 +1,5 @@
 <script>
-    import { navigate } from 'svelte-routing';
+    //import { navigate } from 'svelte-routing';
   
     function handleProviderSignUp() {
         window.location.href = '/provider-sign-up';

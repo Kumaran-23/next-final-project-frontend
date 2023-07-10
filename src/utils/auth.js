@@ -110,5 +110,3 @@ export async function providerLogin(email, password) {
       throw error;
   }
 }
-
-
