@@ -26,10 +26,14 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@popperjs/core": "^2.11.8",
 		"@types/googlemaps": "^3.43.3",
 		"@types/markerclustererplus": "^2.1.33",
+		"flowbite": "^1.7.0",
+		"flowbite-svelte": "^0.39.2",
 		"google-maps": "^4.3.3",
 		"maplibre-gl": "^3.1.0",
-		"svelte-routing": "^1.11.0"
+		"svelte-routing": "^1.11.0",
+		"tailwind-merge": "^1.13.2"
 	}
 }
