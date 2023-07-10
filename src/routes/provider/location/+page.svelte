@@ -9,6 +9,7 @@
   let searchInput;
   let locationSelected;
   let marker;
+  let travelDistanceInput;
 
   async function addressConfirmed() {
     if (!locationSelected) {
@@ -46,7 +47,8 @@
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ address: locationName }),
+      body: JSON.stringify({ address: locationName,
+      travel_distance: travelDistanceInput.value }),
     });
 
     if (response.status === 200) {
@@ -138,14 +140,15 @@
 <div class="flex justify-center items-center pt-20">
   <div id="map"></div>
 </div>
+<div class="flex justify-center items-center pt-10">
+    <p>Please Select Address and distance willing to travel for a job(in Km)</p>
+</div>
 <div class="flex justify-center items-center pt-5">
   <div class="search-container">
     <input type="text" bind:this={searchInput} placeholder="Enter an address" />
+    <input type="number" min="0" bind:this={travelDistanceInput} placeholder="Enter distance" />
     <button class="btn bg-blue-500" on:click={searchAddress}>Search</button>
   </div>
-</div>
-<div class="flex justify-center items-center pt-20">
-    <p>Please Select Address</p>
 </div>
 <div class="flex justify-center items-center pt-10">
   {#if locationSelected}
