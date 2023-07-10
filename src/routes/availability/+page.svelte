@@ -1,5 +1,5 @@
 <script>
-    import { time } from "../../utils/time.js";
+    import { time, handleCreateAvailability } from "../../utils/time.js";
     import { createEventDispatcher } from "svelte";
   
     let availability = [
@@ -33,6 +33,7 @@
     const handleSaveAvailability = () => {
       if (availability.length > 0) {
         console.log(availability);
+        handleCreateAvailability(availability);
       } else {
         toast.error("Select your availability");
       }
