@@ -1,6 +1,7 @@
 <script>
-  import { time, handleCreateAvailability } from "../../utils/time.js";
-  import { createEventDispatcher } from "svelte";
+  import { PUBLIC_BACKEND_BASE_URL } from "$env/static/public";
+  import { getTokenFromLocalStorage } from "../../utils/auth.js";
+  import { time } from "../../utils/time.js";
   
   let availability = [
     { day: "Sun", startAt: "", endAt: "" },
@@ -30,20 +31,54 @@
     });
   };
   
+  // Validate start time and end time inputs
   const handleSaveAvailability = () => {
-    if (availability.length > 0) {
-      console.log(availability);
-      handleCreateAvailability(availability);
-    } else {
-      toast.error("Select your availability");
-    }
+    let isValid = true;
+
+    for (const item of availability) {
+      if (item.startAt && item.endAt) {
+        const startTime = parseInt(item.startAt);
+        const endTime = parseInt(item.endAt);
+
+        if (endTime <= startTime) {
+          alert("End time cannot be earlier than or equal to start time!");
+          isValid = false;
+          break;
+        };
+      } else if (item.startAt || item.endAt) {
+          alert("Both start time and end time must be filled out!");
+          isValid = false;
+          break;
+      }
+    };
+
+    if (isValid) {
+      const filteredAvailability = availability.filter(
+        (item) => item.startAt || item.endAt
+      );
+      console.log(filteredAvailability);
+      handleCreateAvailability(filteredAvailability);
+    };
   };
-  
-  const dispatch = createEventDispatcher();
-  
-  $: {
-    dispatch("availability-updated", availability);
-  }
+
+  async function handleCreateAvailability(availability) {
+    const token = getTokenFromLocalStorage();
+
+    try {
+      await fetch(PUBLIC_BACKEND_BASE_URL + "/availability", {
+        method: "POST",
+        body: JSON.stringify({
+          availability,
+        }),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    };
+  };
 </script>
 
 <div class="container mx-auto px-24 py-12">
