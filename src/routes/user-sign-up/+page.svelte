@@ -3,8 +3,7 @@
     import Alert from '../../Alert.svelte'
     import { writable } from 'svelte/store';
   
-      let firstName = '';
-      let lastName = ''
+      let name = '';
       let email = '';
       let password = '';
   
@@ -15,12 +14,12 @@
     
       async function handleSubmit() {
         try {
-          const response = await fetch('http://localhost:8080/api/users', {
+          const response = await fetch('http://localhost:8080/users', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ firstName, lastName, email, password })
+            body: JSON.stringify({ name, email, password })
           });
   
           if (response.ok) {
@@ -41,16 +40,10 @@
     
     <form class="max-w-sm mx-auto">
       <div class="mb-4">
-          <label class="block mb-2" for="firstName">First Name</label>
-          <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="firstName" id="firstName" bind:value={firstName}>
+          <label class="block mb-2" for="name">Name</label>
+          <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="name" id="name" bind:value={name}>
         </div>
-  
-        <div class="mb-4">
-          <label class="block mb-2" for="lastName">Last Name</label>
-          <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="lastName" id="lastName" bind:value={lastName}>
-        </div>
-  
-  
+
       <div class="mb-4">
         <label class="block mb-2" for="email">Email</label>
         <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="email" id="email" bind:value={email}>
