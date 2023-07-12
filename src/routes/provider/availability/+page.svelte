@@ -1,7 +1,7 @@
 <script>
   import { PUBLIC_BACKEND_BASE_URL } from "$env/static/public";
-  import { getTokenFromLocalStorage } from "../../utils/auth.js";
-  import { time } from "../../utils/time.js";
+  import { getTokenFromLocalStorage } from "../../../utils/auth.js";
+  import { time } from "../../../utils/time.js";
   
   let availability = [
     { day: "Sun", startAt: "", endAt: "" },

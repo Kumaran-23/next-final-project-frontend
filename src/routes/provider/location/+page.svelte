@@ -5,11 +5,15 @@
   import { getTokenFromLocalStorage } from '../../../utils/auth';
   import { showAlert } from '../../../alertStore'
 
+  import { writable } from 'svelte/store';
+
   let map;
   let searchInput;
   let locationSelected;
   let marker;
   let travelDistanceInput;
+
+  const savedLocation = writable(null); // Store for the saved location data
 
   async function addressConfirmed() {
     if (!locationSelected) {
@@ -62,9 +66,9 @@
     const geocoder = new google.maps.Geocoder();
     const address = searchInput.value;
 
-     const componentRestrictions = {
-    country: 'MY' 
-  };
+    const componentRestrictions = {
+      country: 'MY' 
+    };
 
     geocoder.geocode({ address, componentRestrictions }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
@@ -80,8 +84,6 @@
       }
 
       map.setCenter(location);
-
-
         locationSelected = location;
         console.log(JSON.stringify(locationSelected))
       } else {
@@ -90,7 +92,28 @@
     });
   }
 
+  async function fetchSavedLocation() {
+    try {
+      const token = getTokenFromLocalStorage();
+      const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/location', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        savedLocation.set(data);
+      } else {
+        console.error(await response.json());
+      }
+    } catch (error) {
+      console.error('Failed to fetch saved location:', error);
+    }
+  }
+
   onMount(() => {
+    fetchSavedLocation();
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCoo4Tzwqzhb-ghGZjJx_R3iaaW0a7vx9s&callback=initMap`;
     script.defer = true;
@@ -156,8 +179,11 @@
   {/if}
 </div>
 
-
-
-
-
-
+<div class="flex justify-center items-center pt-10">
+  {#if $savedLocation}
+    <div>
+      <h3>Saved Location:</h3>
+      <p>{savedLocation.address}</p>
+    </div>
+  {/if}
+</div>

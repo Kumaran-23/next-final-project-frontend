@@ -106,10 +106,10 @@ export function logout() {
     showAlert('Logged out successfully', 'success');
 }
 
-
+// For provider to login (refactored)
 export async function providerLogin(email, password) {
   try {
-    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/providers/sign-in', {
+    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/provider/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -119,26 +119,26 @@ export async function providerLogin(email, password) {
 
     if (response.ok) {
       // User logged in successfully
-      // Retrieve the access token from the response body
+      // Retrieve the access token and id from the response body
       const data = await response.json();
-      const accessToken = data.accessToken
-      const providerId = data.providerId
+      const accessToken = data.accessToken;
+      const providerId = data.providerId;
 
       // Store the access token in the accessTokenStore
       accessTokenStore.set(accessToken);
 
       // Store the access token in local storage
-      localStorage.setItem('accessToken', accessToken)
-      localStorage.setItem('providerId', providerId)
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('providerId', providerId);
 
-      showAlert('Success', 'success')
+      showAlert('You have successfully logged in!', 'success');
 
       // Redirect to the dashboard or perform any necessary actions
       window.setTimeout(() => {
-          window.location.href = '/';
-        }, 3000);
+        window.location.href = '/provider';
+      }, 3000);
     } else if (response.status === 401) {
-      showAlert('Invalid credentials')
+      showAlert('Invalid credentials', 'failure');
     } else {
       const errorData = await response.json();
       showAlert(`Error: ${errorData.error}`, 'failure');
@@ -146,7 +146,7 @@ export async function providerLogin(email, password) {
 
     return response;
   } catch (error) {
-      showAlert(`Error: ${error}`, 'failure')
-      throw error;
+    showAlert(`Error: ${error}`, 'failure')
+    throw error;
   }
-}
+};
