@@ -26,6 +26,7 @@ export async function userLogin(email, password) {
         // User logged in successfully
         // Retrieve the access token from the response body
         const data = await response.json();
+        console.log(JSON.stringify(data));
         const accessToken = data.accessToken
       const userId = data.userId
 
