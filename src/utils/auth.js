@@ -1,16 +1,26 @@
 import { writable } from 'svelte/store';
-import { showAlert } from '../alertStore';
+import { showAlert } from '../alertStore.js';
 import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 
 export const accessTokenStore = writable(false);
 
+// Get access token for both users and providers (refactored)
 export function getTokenFromLocalStorage() {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-        return(accessToken);
-    }
-    return null;
-}
+  const accessToken = localStorage.getItem("accessToken");
+  if (accessToken) {
+    return(accessToken);
+  }
+  return null;
+};
+
+// Get provider id (refactored)
+export function getProviderIdFromLocalStorage() {
+  const providerId = localStorage.getItem("providerId");
+  if (providerId) {
+    return(providerId);
+  }
+  return null;
+};
 
 export async function userLogin(email, password) {
     try {
@@ -109,7 +119,7 @@ export function logout() {
 // For provider to login (refactored)
 export async function providerLogin(email, password) {
   try {
-    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/provider/login', {
+    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/providers/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -135,7 +145,7 @@ export async function providerLogin(email, password) {
 
       // Redirect to the dashboard or perform any necessary actions
       window.setTimeout(() => {
-        window.location.href = '/provider';
+        window.location.href = '/providers';
       }, 3000);
     } else if (response.status === 401) {
       showAlert('Invalid credentials', 'failure');

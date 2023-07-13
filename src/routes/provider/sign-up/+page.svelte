@@ -34,7 +34,7 @@
       photo_url: fileUrl
     };
 
-    const resp = await fetch(PUBLIC_BACKEND_BASE_URL + '/provider/sign-up', {
+    const resp = await fetch(PUBLIC_BACKEND_BASE_URL + '/providers/sign-up', {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -60,7 +60,7 @@
   };
 </script>
 
-<div class="bg-gray-50 dark:bg-gray-900">
+<div class="bg-gray-50 dark:bg-gray-900 h-auto py-20">
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
     <a href="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
       <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
@@ -142,7 +142,7 @@
           </div>
 
           <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-            Already have an account? <a href="/provider/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
+            Already have an account? <a href="/providers/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
           </p>
         </form>
       </div>
