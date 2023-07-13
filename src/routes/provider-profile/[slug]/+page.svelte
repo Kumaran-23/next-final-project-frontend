@@ -70,6 +70,7 @@
     if (response.ok) {
       provider = await response.json();
       provider.avatar = provider.photo_url;
+      localStorage.setItem('provider.id', provider.id);
     }
   }
 
