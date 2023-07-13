@@ -111,10 +111,63 @@ export function logout() {
     showAlert('Logged out successfully', 'success');
 }
 
+// export async function providerLogin(email, password) {
+//   try {
+//     const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/providers/sign-in', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ email, password }),
+//     });
 
+//     if (response.ok) {
+//       // User logged in successfully
+//       // Retrieve the access token from the response body
+//       const data = await response.json();
+//       const accessToken = data.accessToken
+//       const providerId = data.providerId
+
+//       // Store the access token in the accessTokenStore
+//       accessTokenStore.set(accessToken);
+
+//       // Store the access token in local storage
+//       localStorage.setItem('accessToken', accessToken)
+//       localStorage.setItem('providerId', providerId)
+
+//       showAlert('Success', 'success')
+
+//       // Redirect to the dashboard or perform any necessary actions
+//       window.setTimeout(() => {
+//           window.location.href = '/';
+//         }, 3000);
+//     } else if (response.status === 401) {
+//       showAlert('Invalid credentials')
+//     } else {
+//       const errorData = await response.json();
+//       showAlert(`Error: ${errorData.error}`, 'failure');
+//     }
+
+//     return response;
+//   } catch (error) {
+//       showAlert(`Error: ${error}`, 'failure')
+//       throw error;
+//   }
+// }
+
+// Get provider id (refactored)
+export function getProviderIdFromLocalStorage() {
+  const providerId = localStorage.getItem("providerId");
+  if (providerId) {
+    return(providerId);
+  }
+  return null;
+};
+
+// For provider to login (refactored)
 export async function providerLogin(email, password) {
   try {
-    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/providers/sign-in', {
+    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/providers/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -124,26 +177,26 @@ export async function providerLogin(email, password) {
 
     if (response.ok) {
       // User logged in successfully
-      // Retrieve the access token from the response body
+      // Retrieve the access token and id from the response body
       const data = await response.json();
-      const accessToken = data.accessToken
-      const providerId = data.providerId
+      const accessToken = data.accessToken;
+      const providerId = data.providerId;
 
       // Store the access token in the accessTokenStore
       accessTokenStore.set(accessToken);
 
       // Store the access token in local storage
-      localStorage.setItem('accessToken', accessToken)
-      localStorage.setItem('providerId', providerId)
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('providerId', providerId);
 
-      showAlert('Success', 'success')
+      showAlert('You have successfully logged in!', 'success');
 
       // Redirect to the dashboard or perform any necessary actions
       window.setTimeout(() => {
-          window.location.href = '/';
-        }, 3000);
+        window.location.href = '/providers';
+      }, 3000);
     } else if (response.status === 401) {
-      showAlert('Invalid credentials')
+      showAlert('Invalid credentials', 'failure');
     } else {
       const errorData = await response.json();
       showAlert(`Error: ${errorData.error}`, 'failure');
@@ -151,7 +204,7 @@ export async function providerLogin(email, password) {
 
     return response;
   } catch (error) {
-      showAlert(`Error: ${error}`, 'failure')
-      throw error;
+    showAlert(`Error: ${error}`, 'failure')
+    throw error;
   }
-}
+};
