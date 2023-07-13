@@ -1,6 +1,5 @@
 import { PUBLIC_AWS_REGION, PUBLIC_AWS_BUCKET, PUBLIC_IDENTITY_POOL_ID } from '$env/static/public';
 
-
 export async function uploadMedia(file, directory = "") {
   AWS.config.update({
     region: PUBLIC_AWS_REGION,
