@@ -2,6 +2,8 @@ import { writable } from 'svelte/store';
 import { showAlert } from '../alertStore';
 import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 
+let isLoggedIn = writable(false);
+
 export const accessTokenStore = writable(false);
 
 export function getTokenFromLocalStorage() {
@@ -103,6 +105,8 @@ export function logout() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('providerId');
     localStorage.removeItem('userId');
+    isLoggedIn = false;
+
 
     showAlert('Logged out successfully', 'success');
 }
