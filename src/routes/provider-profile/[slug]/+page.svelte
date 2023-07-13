@@ -73,6 +73,7 @@
     if (response.ok) {
       provider = await response.json();
       provider.avatar = provider.photo_url;
+      localStorage.setItem('provider.Id', provider.id);
     }
   }
 
@@ -97,6 +98,7 @@
     // Calculate booking hours and price
       bookingHours = endHours - startHours;
       bookingPrice = calculatePrice(endHours, startHours, provider.hourly_rate);
+      localStorage.setItem('totalPrice', bookingPrice);
     // Show the booking overlay
     showBookingOverlay = true;
   }
@@ -136,7 +138,6 @@
       }
     }
 
-    localStorage.setItem('totalPrice', bookingPrice);
 
 
 </script>

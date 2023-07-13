@@ -1,20 +1,33 @@
 <script>
-	import { onMount } from 'svelte';
-	import { afterUpdate } from 'svelte';
+    import { onMount } from 'svelte';
+    import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
 
-	onMount(() => {
-		setTimeout(() => {
-			window.location.href = 'http://127.0.0.1:5173/'; // Replace with your homepage URL
-		}, 5000);
-	});
+onMount(async () => {
+  const data = {
+    address: localStorage.getItem('userAddress'),
+    service_fee: parseInt(localStorage.getItem('totalPrice')),
+    booking_starttime: localStorage.getItem('startTime') + ':00',
+    booking_endtime: localStorage.getItem('endTime') + ':00',
+    booking_date: localStorage.getItem('searchDay'),
+    user_id: parseInt(localStorage.getItem('userId')),
+    provider_id: parseInt(localStorage.getItem('provider.Id'))
+  };
 
-	afterUpdate(() => {
-		setTimeout(() => {
-			window.location.href = 'http://127.0.0.1:5173/'; // Replace with your homepage URL
-		}, 5000);
-	});
-    
+  const response = await fetch(PUBLIC_BACKEND_BASE_URL +'/booking', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  const responseData = await response.json();
+  console.log(responseData);
+});
+
 </script>
+
+<p>SUCESS!!</p>
 
 <main class="flex flex-col items-center justify-center h-screen bg-amber-100">
 	<div id="logo">

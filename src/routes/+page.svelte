@@ -25,6 +25,7 @@
     console.log('Day:', day);
     console.log('Start Time:', start_time);
     console.log('End Time:', end_time);
+    console.log('Address:', userAddress)
     const response = await fetch(PUBLIC_BACKEND_BASE_URL +'/providers/search', {
       method: 'POST',
       headers: {
@@ -45,6 +46,7 @@
       localStorage.setItem('searchDay', day);
       localStorage.setItem('startTime', start_time);
       localStorage.setItem('endTime', end_time);
+      localStorage.setItem('userAddress', userAddress);
     } else {
       console.error('Search failed');
     }
