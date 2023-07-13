@@ -136,6 +136,8 @@
       }
     }
 
+    localStorage.setItem('totalPrice', bookingPrice);
+
 
 </script>
 
@@ -196,7 +198,7 @@
 
       <!-- Hourly Rate -->
         <div class="text-center mt-2">
-          <p>Hourly Rate: {currency} {provider.hourly_rate}</p>
+          <p>Hourly Rate: {currency}{provider.hourly_rate}</p>
         </div>
 
       <!-- About Me -->
@@ -255,8 +257,8 @@
     <div class="booking-form">
       <h2 class="text-xl font-semibold mb-4">Booking Details</h2>
       <p>Hours Booked: {bookingHours}</p>
-      <p>Hourly Rate: {currency} {provider.hourly_rate}</p>
-      <p>Total Price: {currency} {bookingPrice}</p>
+      <p>Hourly Rate: RM {provider.hourly_rate}</p>
+      <p>Total Price: RM {bookingPrice}</p>
       <button class="btn btn-primary" on:click={goToPayment}>Proceed to Payment</button>
     </div>
   </div>
