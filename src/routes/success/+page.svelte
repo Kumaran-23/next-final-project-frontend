@@ -4,13 +4,13 @@
 
 onMount(async () => {
   const data = {
-    address: 'Digital Mall, 2, Jalan 14/20, Seksyen 14 Petaling Jaya, 46100 Petaling Jaya, Selangor',
-    service_fee: 150.0,
-    booking_starttime: '15:00',
-    booking_endtime: '18:00',
-    booking_date: 'Sat Jul 15 2023 21:21:46 GMT+0800 (Malaysia Time)',
-    user_id: 1,
-    provider_id: 2
+    address: localStorage.getItem('userAddress'),
+    service_fee: parseInt(localStorage.getItem('totalPrice')),
+    booking_starttime: localStorage.getItem('startTime') + ':00',
+    booking_endtime: localStorage.getItem('endTime') + ':00',
+    booking_date: localStorage.getItem('searchDay'),
+    user_id: parseInt(localStorage.getItem('userId')),
+    provider_id: parseInt(localStorage.getItem('provider.Id'))
   };
 
   const response = await fetch(PUBLIC_BACKEND_BASE_URL +'/booking', {
