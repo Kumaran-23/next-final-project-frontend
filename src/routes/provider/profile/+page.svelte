@@ -58,10 +58,10 @@
                                 Sun
                             </th>
                             <td class="px-6 py-4">
-                                Silver
+                                06:00
                             </td>
                             <td class="px-6 py-4">
-                                Laptop
+                                12:00
                             </td>
                         </tr>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -69,10 +69,10 @@
                                 Mon
                             </th>
                             <td class="px-6 py-4">
-                                White
+                                06:00
                             </td>
                             <td class="px-6 py-4">
-                                Laptop PC
+                                12:00
                             </td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
@@ -80,10 +80,10 @@
                                 Tue
                             </th>
                             <td class="px-6 py-4">
-                                Black
+                                06:00
                             </td>
                             <td class="px-6 py-4">
-                                Accessories
+                                12:00
                             </td>
                         </tr>
                     </tbody>
@@ -107,15 +107,13 @@
                     <img class="w-64 h-64 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" src="https://images.ctfassets.net/1wryd5vd9xez/6imn4PsoUBr6I9Hs8jWxk4/b28965e1afec63588266cf42ba5178ae/https___cdn-images-1.medium.com_max_2000_1_7hkI-ZKsglnbjxCRV1bMZA.png" alt="image description">
                 </div>
                 <div class="mt-4">
-                    <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl dark:text-white">Chelsea Ho</h2>
-                    <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl dark:text-white">$50/hr</p>
+
                     <dl>
-                        <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">About Me</dt>
-                        <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Hello! I love to read. My favourite books are Harry Potter, Lord of The Rings, and more. As you can tell, I love fantasy!</dd>
+                        <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Address</dt>
+                        <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">26, Jalan SS24/20, Taman Megah</dd>
                     </dl>
                 </div>
             </div>
         </section>
     </main>
 </div>
-

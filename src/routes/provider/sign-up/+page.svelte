@@ -6,6 +6,7 @@
   import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
   import { goto } from '$app/navigation';
   import { providerLogin } from '../../../utils/auth.js';
+  import { uploadMedia } from '../../../utils/s3-uploader.js';
   let formErrors = {};
   let clicked = false;
 
@@ -16,6 +17,7 @@
   async function createProvider(evt) {
     evt.preventDefault();
     clicked = true;
+    const [fileName, fileUrl] = await uploadMedia(evt.target['file'].files[0]);
 
     if (evt.target['password'].value != evt.target['password-confirmation'].value) {
       formErrors['password'] = { message: 'Password confirmation does not match' };
@@ -28,6 +30,8 @@
       name: evt.target['name'].value,
       email: evt.target['email'].value,
       password: evt.target['password'].value,
+      hourly_rate: parseInt(evt.target['hourly_rate'].value),
+      photo_url: fileUrl
     };
 
     const resp = await fetch(PUBLIC_BACKEND_BASE_URL + '/provider/sign-up', {
@@ -73,7 +77,7 @@
             <input type="text" name="name" id="name" placeholder="John Doe" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             {#if 'name' in formErrors}
             <label class="label" for="name">
-                <span class="label-text-alt text-red-400">{formErrors['name']}</span>
+                <span class="label-text-alt mb-2 text-sm font-medium text-red-400">{formErrors['name']}</span>
             </label>
             {/if}
           </div>
@@ -82,7 +86,7 @@
             <input type="email" name="email" id="email" placeholder="john@example.com" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             {#if 'email' in formErrors}
             <label class="label" for="email">
-                <span class="label-text-alt text-red-400">{formErrors['email']}</span>
+                <span class="label-text-alt mb-2 text-sm font-medium text-red-400">{formErrors['email']}</span>
             </label>
             {/if}
           </div>
@@ -91,7 +95,7 @@
             <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             {#if 'password' in formErrors}
             <label for="password" class="label">
-              <span class="label-text-alt text-red-400">{formErrors['password']}</span>
+              <span class="label-text-alt mb-2 text-sm font-medium text-red-400">{formErrors['password']}</span>
             </label>
             {/if}
           </div>
@@ -100,7 +104,25 @@
             <input type="password" name="password-confirmation" id="password-confirmation" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             {#if 'password' in formErrors}
             <label for="password" class="label">
-              <span class="label-text-alt text-red-400">{formErrors['password']}</span>
+              <span class="label-text-alt mb-2 text-sm font-medium text-red-400">{formErrors['password']}</span>
+            </label>
+            {/if}
+          </div>
+          <div>
+            <label for="hourly_rate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hourly Rate</label>
+            <input type="number" name="hourly_rate" id="hourly_rate" placeholder="15" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+            {#if 'hourly_rate' in formErrors}
+            <label class="label" for="hourly_rate">
+                <span class="label-text-alt mb-2 text-sm font-medium text-red-400">{formErrors['hourly_rate']}</span>
+            </label>
+            {/if}
+          </div>
+          <div>      
+            <label for="file" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile Photo</label>
+            <input type="file" name="file" id="file" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" required />
+            {#if 'file' in formErrors}
+            <label class="label" for="file">
+                <span class="label-text-alt mb-2 text-sm font-medium text-red-400">{formErrors['file']}</span>
             </label>
             {/if}
           </div>
