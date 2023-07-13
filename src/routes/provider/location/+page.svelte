@@ -41,7 +41,7 @@
     const token = getTokenFromLocalStorage();
     console.log(typeof token)
     console.log(token)
-    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/location', {
+    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/location/upsert', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
