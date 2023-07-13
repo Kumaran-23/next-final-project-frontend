@@ -1,4 +1,6 @@
 import { PUBLIC_BACKEND_BASE_URL } from '$env/static/public';
+import { onMount } from 'svelte';
+import { page } from '$app/stores';
 
 export async function load({ fetch, params }) {
   const resp = await fetch(PUBLIC_BACKEND_BASE_URL + `/providers/${params.slug}`);
@@ -14,3 +16,4 @@ export async function load({ fetch, params }) {
     }
   }
 }
+
