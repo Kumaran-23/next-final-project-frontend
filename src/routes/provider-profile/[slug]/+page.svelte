@@ -199,43 +199,147 @@
                 </div>
             </div>
         </section>
-              <!-- Book Provider (If User Logged In) -->
-      {#if isLoggedIn}
-        <div class="text-center mt-4">
-          <button class="btn btn-primary" on:click={handlePayNow}>Book Provider</button>
+        
+        <section class="bg-white shadow-md dark:bg-gray-800 rounded-lg w-full max-w-screen-md mx-auto mb-8 px-4 lg:px-8">
+          <!-- First Row -->
+          <div class="flex justify-between items-center pt-4">
+              <h5 class="font-semibold dark:text-white">Availability</h5>
+              <button id="updateProductButton" data-modal-toggle="updateProductModal" class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
+                  Update product
+              </button>
+          </div>
+          <!-- Line -->
+          <hr class="h-px mt-4 bg-gray-200 border-0 dark:bg-gray-700">
+          <!-- Second Row -->
+          <div class="grid mb-8 border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 md:mb-12 md:grid-cols-2">
+            <figure class="flex flex-col items-center justify-center p-8 text-center bg-white border-b border-gray-200 rounded-t-lg md:rounded-t-none md:rounded-tl-lg md:border-r dark:bg-gray-800 dark:border-gray-700">
+                <blockquote class="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Very easy this was to integrate</h3>
+                    <p class="my-4">If you care for your time, I hands down would go with this."</p>
+                </blockquote>
+                <figcaption class="flex items-center justify-center space-x-3">
+                    <img class="rounded-full w-9 h-9" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png" alt="profile picture">
+                    <div class="space-y-0.5 font-medium dark:text-white text-left">
+                        <div>Bonnie Green</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Developer at Open AI</div>
+                    </div>
+                </figcaption>    
+            </figure>
+            <figure class="flex flex-col items-center justify-center p-8 text-center bg-white border-b border-gray-200 rounded-tr-lg dark:bg-gray-800 dark:border-gray-700">
+                <blockquote class="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Solid foundation for any project</h3>
+                    <p class="my-4">Designing with Figma components that can be easily translated to the utility classes of Tailwind CSS is a huge timesaver!"</p>
+                </blockquote>
+                <figcaption class="flex items-center justify-center space-x-3">
+                    <img class="rounded-full w-9 h-9" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/roberta-casas.png" alt="profile picture">
+                    <div class="space-y-0.5 font-medium dark:text-white text-left">
+                        <div>Roberta Casas</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Lead designer at Dropbox</div>
+                    </div>
+                </figcaption>    
+            </figure>
+            <figure class="flex flex-col items-center justify-center p-8 text-center bg-white border-b border-gray-200 rounded-bl-lg md:border-b-0 md:border-r dark:bg-gray-800 dark:border-gray-700">
+                <blockquote class="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Mindblowing workflow</h3>
+                    <p class="my-4">Aesthetically, the well designed components are beautiful and will undoubtedly level up your next application."</p>
+                </blockquote>
+                <figcaption class="flex items-center justify-center space-x-3">
+                    <img class="rounded-full w-9 h-9" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="profile picture">
+                    <div class="space-y-0.5 font-medium dark:text-white text-left">
+                        <div>Jese Leos</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Software Engineer at Facebook</div>
+                    </div>
+                </figcaption>    
+            </figure>
+            <figure class="flex flex-col items-center justify-center p-8 text-center bg-white border-gray-200 rounded-b-lg md:rounded-br-lg dark:bg-gray-800 dark:border-gray-700">
+                <blockquote class="max-w-2xl mx-auto mb-4 text-gray-500 lg:mb-8 dark:text-gray-400">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Efficient Collaborating</h3>
+                    <p class="my-4">You have many examples that can be used to create a fast prototype for your team."</p>
+                </blockquote>
+                <figcaption class="flex items-center justify-center space-x-3">
+                    <img class="rounded-full w-9 h-9" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/joseph-mcfall.png" alt="profile picture">
+                    <div class="space-y-0.5 font-medium dark:text-white text-left">
+                        <div>Joseph McFall</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">CTO at Google</div>
+                    </div>
+                </figcaption>    
+            </figure>
+          </div>
+        </section>
+
+        <section class="bg-white shadow-md dark:bg-gray-800 rounded-lg w-full max-w-screen-md mx-auto mb-8 px-4 lg:px-8">
+          <!-- First Row -->
+          <div class="flex justify-between items-center pt-4">
+              <h5 class="font-semibold dark:text-white">Availability</h5>
+              <button id="updateProductButton" data-modal-toggle="updateProductModal" class="block text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" type="button">
+                  Update product
+              </button>
+          </div>
+          <!-- Line -->
+          <hr class="h-px mt-4 bg-gray-200 border-0 dark:bg-gray-700">
+          <!-- Second Row -->
+          <div class="grid gap-4">
+            <div>
+                <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="">
+            </div>
+            <div class="grid grid-cols-5 gap-4">
+                <div>
+                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" alt="">
+                </div>
+                <div>
+                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" alt="">
+                </div>
+                <div>
+                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" alt="">
+                </div>
+                <div>
+                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" alt="">
+                </div>
+                <div>
+                    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" alt="">
+                </div>
+            </div>
         </div>
-      {:else}
-        <div class="text-center mt-4">
-          <button class="btn btn-primary" on:click={() => showLoginOverlay = true}>Please log in to book this provider</button>
-        </div>
-      {/if}
+        </section>
+
+        <!-- Book Provider (If User Logged In) -->
+        {#if isLoggedIn}
+          <div class="text-center mt-4">
+            <button class="btn btn-primary" on:click={handlePayNow}>Book Provider</button>
+          </div>
+        {:else}
+          <div class="text-center mt-4">
+            <button class="btn btn-primary" on:click={() => showLoginOverlay = true}>Please log in to book this provider</button>
+          </div>
+        {/if}
     </main>
   {:else}
     <p>Loading provider data...</p>
   {/if}
 
   {#if showLoginOverlay}
-  <div class="overlay">
-    <div class="login-form">
-      <h2 class="text-xl font-semibold mb-4">User Login</h2>
-      <form>
-        <div class="mb-4">
-          <label class="block mb-2" for="email">Email</label>
-          <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="email" id="email" bind:value={email}>
-        </div>
-        
-        <div class="mb-4">
-          <label class="block mb-2" for="password">Password</label>
-          <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="password" id="password" bind:value={password}>
-        </div>
-        
-        <div class="text-center mb-4">
-          <button class="bg-blue-500 text-white px-4 py-2 rounded-md" on:click={handleLogin}>Sign In</button>
-        </div>
-      </form>
+    <div class="overlay">
+      <div class="login-form">
+        <h2 class="text-xl font-semibold mb-4">User Login</h2>
+        <form>
+          <div class="mb-4">
+            <label class="block mb-2" for="email">Email</label>
+            <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="email" id="email" bind:value={email}>
+          </div>
+          
+          <div class="mb-4">
+            <label class="block mb-2" for="password">Password</label>
+            <input class="w-full border border-gray-300 px-4 py-2 rounded-md" type="password" id="password" bind:value={password}>
+          </div>
+          
+          <div class="text-center mb-4">
+            <button class="bg-blue-500 text-white px-4 py-2 rounded-md" on:click={handleLogin}>Sign In</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
   {/if}
+
   {#each data.provider_image as image}
     <div class="card hover:transition delay-150 hover:-translate-y-10 shadow-xl shadow-sky-200 hover:shadow-indigo-600 flex flex-col justify-between">
       <figure style="height: 100px; width: 100px;" class="relative">
@@ -244,16 +348,17 @@
     </div>
   {/each}
 
-
   {#if showBookingOverlay}
-  <div class="overlay">
-  <div class="booking-form">
-    <h2 class="text-xl font-semibold mb-4">Booking Details</h2>
-    <p>Hours Booked: {bookingHours}</p>
-    <p>Hourly Rate: RM {provider.hourly_rate}</p>
-    <p>Total Price: RM {bookingPrice}</p>
-    <button class="btn btn-primary" on:click={goToPayment}>Proceed to Payment</button>
-  </div>
-  </div>
+    <div class="overlay">
+    <div class="booking-form">
+      <h2 class="text-xl font-semibold mb-4">Booking Details</h2>
+      <p>Hours Booked: {bookingHours}</p>
+      <p>Hourly Rate: RM {provider.hourly_rate}</p>
+      <p>Total Price: RM {bookingPrice}</p>
+      <button class="btn btn-primary" on:click={goToPayment}>Proceed to Payment</button>
+      <button class="btn btn-primary">Cancel</button>
+    </div>
+    </div>
   {/if}
+
 </div>
