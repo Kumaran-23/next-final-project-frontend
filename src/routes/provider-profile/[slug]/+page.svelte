@@ -7,6 +7,9 @@
 	import { onDestroy } from 'svelte';
   import { showAlert } from '../../../alertStore'
   import { writable } from 'svelte/store';
+  export let data;
+
+  console.log(data)
   
   // login/logout logic
   let isLoggedIn = writable(false);
@@ -134,6 +137,8 @@
       }
     }
 
+    localStorage.setItem('totalPrice', bookingPrice);
+
 
 </script>
 
@@ -194,7 +199,7 @@
 
       <!-- Hourly Rate -->
         <div class="text-center mt-2">
-          <p>Hourly Rate: {currency} {provider.hourly_rate}</p>
+          <p>Hourly Rate: {currency}{provider.hourly_rate}</p>
         </div>
 
       <!-- About Me -->
@@ -240,17 +245,25 @@
       </div>
     </div>
   {/if}
+    {#each data.provider_image as image}
+      <div class="card hover:transition delay-150 hover:-translate-y-10 shadow-xl shadow-sky-200 hover:shadow-indigo-600 flex flex-col justify-between">
+        <figure style="height: 100px; width: 100px;" class="relative">
+          <img src={image.image_url} alt="" class="w-full h-full object-cover transition-transform duration-300 transform hover:scale-110" />
+        </figure>
+      </div>
+    {/each}
 
   {#if showBookingOverlay}
   <div class="overlay">
     <div class="booking-form">
       <h2 class="text-xl font-semibold mb-4">Booking Details</h2>
       <p>Hours Booked: {bookingHours}</p>
-      <p>Hourly Rate: {currency} {provider.hourly_rate}</p>
-      <p>Total Price: {currency} {bookingPrice}</p>
+      <p>Hourly Rate: RM {provider.hourly_rate}</p>
+      <p>Total Price: RM {bookingPrice}</p>
       <button class="btn btn-primary" on:click={goToPayment}>Proceed to Payment</button>
     </div>
   </div>
 {/if}
+
 
 </main>

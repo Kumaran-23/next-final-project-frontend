@@ -90,9 +90,22 @@
     const filtered = $providers.filter(provider => provider.name.includes(searchText));
     filteredProviders.set(filtered);
   }
-</script>
 
-<!-- Rest of the HTML code -->
+   // Add CSS class to the <ul> element
+    let profileListClass = 'profile-list';
+
+// Calculate the number of profiles per row
+let profilesPerRow = 4;
+let profilesRowCount = Math.ceil($filteredProviders.length / profilesPerRow);
+
+// Calculate the width percentage for each profile in a row
+let profileWidthPercentage = 100 / profilesPerRow;
+
+// Calculate the width percentage for the last row if it has fewer profiles
+let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
+
+
+</script>
 
 <header class="header flex justify-between items-center py-4 px-6">
   <div class="logo text-white text-xl font-bold">Next Academy Project</div>
@@ -139,22 +152,28 @@
 
 <h1 class="text-center text-xl font-bold">Book Your Cleaning Services Now!</h1>
 
+
 <div class="container mx-auto py-10 px-5">
-  <ul>
-    {#each $filteredProviders as provider}
-      <li class="flex flex-wrap gap-5">
-        <h2>{provider.name}</h2>
-        <p>{provider.description}</p>
-        <p>{provider.hourly_rate}</p>
-        <p>
-          <a href="/provider-profile/{provider.id}">
-            <img src={provider.photo_url} alt="" class="w-[100px] h-[100px]" />
-          </a>
-        </p>
+  <ul class="{profileListClass}">
+    {#each $filteredProviders as provider, index}
+      <li class="profile-card" style="width: {index >= profilesPerRow * (profilesRowCount - 1) ? lastRowWidthPercentage : profileWidthPercentage}%">
+        <div class="profile-card-inner">
+          <div class="profile-image-container">
+            <a href="/provider-profile/{provider.id}">
+              <img src={provider.photo_url} alt="" class="profile-image">
+            </a>
+          </div>
+          <div class="profile-info">
+            <h2>{provider.name}</h2>
+            <p>{provider.description}</p>
+            <p>{provider.hourly_rate}</p>
+          </div>
+        </div>
       </li>
     {/each}
   </ul>
 </div>
+
 
 <style>
   .header {
@@ -167,6 +186,41 @@
     gap: 1rem;
     max-width: 400px;
     margin: 0 auto;
+  }
+
+  .profile-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the profile cards horizontally */
+  gap: 5rem;
+  list-style-type: none;
+  padding: 0;
+}
+
+  .profile-card {
+    border: 0px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 300px; /* Adjust the max-width */
+    max-height: 100px;
+    position: relative;
+  }
+
+  .profile-card-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .profile-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
   }
 
 </style>
