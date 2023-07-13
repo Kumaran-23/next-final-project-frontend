@@ -32,6 +32,10 @@
     } else {
       console.error('Search failed');
     }
+
+  localStorage.setItem('searchDay', day);
+  localStorage.setItem('startTime', start_time);
+  localStorage.setItem('endTime', end_time);
   }
 
   function isDuplicateProvider(providerId) {
