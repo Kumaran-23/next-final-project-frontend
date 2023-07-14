@@ -11,7 +11,7 @@
   let clicked = false;
 
   function postSignUp() {
-    goto('/');
+    goto('/provider/availability');
   };
 
   async function createProvider(evt) {
