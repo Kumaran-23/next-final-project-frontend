@@ -58,7 +58,10 @@
   let unsubscribe;
 
   function updateLoginStatus(accessToken) {
-    isLoggedIn.set(!!accessToken);
+    if(accessToken) {
+      isLoggedIn.set(true);
+      console.log($isLoggedIn);
+    }
   }
 
   onDestroy(() => {
@@ -83,6 +86,7 @@
   async function handleLogout() {
     logout();
     isLoggedIn.set(false);
+    console.log($isLoggedIn);
     await goto('/');
   }
 

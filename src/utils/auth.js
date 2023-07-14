@@ -104,7 +104,6 @@ export function logout() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('providerId');
     localStorage.removeItem('userId');
-    isLoggedIn = false;
 
 
     showAlert('Logged out successfully', 'success');
