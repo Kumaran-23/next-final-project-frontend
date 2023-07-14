@@ -4,9 +4,34 @@
   import { onDestroy } from 'svelte';
   import { writable } from 'svelte/store';
   import { page } from '$app/stores';
-  import { accessTokenStore, userLoginForm } from '../../../utils/auth.js';
+  import { accessTokenStore, userLoginForm, logout } from '../../../utils/auth.js';
   import { showAlert } from '../../../alertStore.js';
+  import { goto } from '$app/navigation';
   export let data;
+
+  //header functions
+  let showLoginOverlay = writable(false);
+
+
+  onDestroy(() => {
+    // Clean up the subscription when the component is destroyed
+    unsubscribe();
+  });
+
+  onMount(async () => {
+    unsubscribe = accessTokenStore.subscribe(updateLoginStatus);
+    const storedAccessToken = localStorage.getItem('accessToken');
+    updateLoginStatus(storedAccessToken);
+
+    // Fetch all provider profiles on component mount
+    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/providers');
+    if (response.ok) {
+      const data = await response.json();
+      providers.set(data);
+      filteredProviders.set(data);
+    }
+  });
+
 
   console.log(data)
   
@@ -15,12 +40,14 @@
   let unsubscribe;
   let email = '';
   let password = '';
+  let showLoginPrompt = false; // Add this line
   
   async function handleLogin() {
     const response = await userLoginForm(email, password);
     if (response.ok) {
       isLoggedIn = true;
-      showLoginOverlay = false;
+      showLoginOverlay.set(false);
+      showLoginPrompt = false; // Add this line to hide the login prompt
     }
   }
   
@@ -50,7 +77,6 @@
   
   // Variables for calculating provider fee and stripe payment url 
   let provider = {};
-  let showLoginOverlay = false;
   let sessionUrl = "";
   let currency = 'RM';
   let unit_amount = 0;
@@ -86,14 +112,21 @@
       unit_amount = calculatePrice(endHours, startHours, hourlyRate);
     }
     
-  async function handlePayNow() {
+    async function handlePayNow() {
+  if ($isLoggedIn) {
     // Calculate booking hours and price
-      bookingHours = endHours - startHours;
-      bookingPrice = calculatePrice(endHours, startHours, provider.hourly_rate);
-      localStorage.setItem('totalPrice', bookingPrice);
+    bookingHours = endHours - startHours;
+    bookingPrice = calculatePrice(endHours, startHours, provider.hourly_rate);
+    localStorage.setItem('totalPrice', bookingPrice);
     // Show the booking overlay
-      showBookingOverlay = true;
+    showBookingOverlay = true;
+  } else {
+     // Hide the login prompt
+     showLoginPrompt = false;
+    // Display the login prompt
+    showLoginPrompt = true;
   }
+}
 
   async function stripeCheckout() {
     try {
@@ -130,6 +163,18 @@
   }
 </script>
 
+<header class="header flex justify-between items-center py-4 px-6">
+  <div class="logo text-white text-xl font-bold">NeatFreak</div>
+  <div class="flex space-x-4">
+    {#if $isLoggedIn}
+      <button class="text-white" on:click={() => handleLogout()}>SIGN OUT</button>
+    {:else}
+      <button class="text-white" on:click|preventDefault={() => goto('/sign-up')}>SIGN UP</button>
+      <button class="text-white" on:click|preventDefault={() => goto('/login')}>LOGIN</button>
+    {/if}
+  </div>
+</header>
+
 <style>
   .custom-container {
     display: flex;
@@ -147,11 +192,18 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(128, 128, 128, 0.5); /* Light gray background color */
+    background-color: rgba(128, 128, 128, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
+  }
+
+  .alert-form {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 4px;
+    text-align: center;
   }
 
   .login-form {
@@ -167,6 +219,11 @@
     padding: 2rem;
     border-radius: 4px;
   }
+  
+  .header {
+    background-color: black;
+  }
+    
 </style>
 
 <div class="antialiased bg-gray-50 dark:bg-gray-900">
@@ -185,7 +242,7 @@
                         <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">{provider.description}</dd>
                     </dl>
                     {#if isLoggedIn}
-                      <button on:click={handlePayNow} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Book Provider</button>
+                      <button on:click={() => {handlePayNow(); showLoginOverlay.set(false);}} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Book Provider</button>
                     {:else}
                         <button on:click={() => showLoginOverlay = true} type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Login to Book</button>
                     {/if}
@@ -277,7 +334,7 @@
     <p>Loading provider data...</p>
   {/if}
 
-  {#if showLoginOverlay}
+  <!-- {#if showLoginOverlay}
     <div class="overlay">
       <div class="login-form">
         <h2 class="text-xl font-semibold mb-4">User Login</h2>
@@ -298,20 +355,31 @@
         </form>
       </div>
     </div>
-  {/if}
+  {/if} -->
 
   {#if showBookingOverlay}
     <div class="overlay">
-    <div class="booking-form">
-      <h2 class="text-xl font-semibold mb-4">Booking Details</h2>
-      <p>Hours Booked: {bookingHours}</p>
-      <p>Hourly Rate: RM {provider.hourly_rate}</p>
-      <p>Total Price: RM {bookingPrice}</p>
-      <button class="btn btn-primary" on:click={goToPayment}>Proceed to Payment</button>
-      <button class="btn btn-primary">Cancel</button>
-    </div>
+      <div class="booking-form">
+        <h2 class="text-xl font-semibold mb-4">Booking Details</h2>
+        <p>Hours Booked: {bookingHours}</p>
+        <p>Hourly Rate: RM {provider.hourly_rate}</p>
+        <p>Total Price: RM {bookingPrice}</p>
+        <button class="btn btn-primary" on:click={goToPayment}>Proceed to Payment</button>
+        <button class="btn btn-primary" on:click={() => showBookingOverlay = false}>Cancel</button>
+      </div>
     </div>
   {/if}
+
+
+  {#if !$isLoggedIn && !showBookingOverlay && showLoginPrompt}
+  <div class="overlay">
+    <div class="alert-form">
+      <p>Please log in to book the provider.</p>
+      <button class="btn btn-primary" on:click={() => { showLoginOverlay = true; showLoginPrompt = false;}}>Login</button>
+    </div>
+  </div>
+{/if}
+
 
   <!-- {#each data.provider_image as image}
     <div class="card hover:transition delay-150 hover:-translate-y-10 shadow-xl shadow-sky-200 hover:shadow-indigo-600 flex flex-col justify-between">
