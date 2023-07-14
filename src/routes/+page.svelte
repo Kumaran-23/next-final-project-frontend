@@ -109,6 +109,18 @@
   let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
 </script>
 
+<header class="header flex justify-between items-center py-4 px-6">
+  <div class="logo text-white text-xl font-bold">NeatFreak</div>
+  <div class="flex space-x-4">
+    {#if $isLoggedIn}
+      <button class="text-white" on:click={() => handleLogout()}>SIGN OUT</button>
+    {:else}
+      <button class="text-white" on:click|preventDefault={() => goto('/sign-up')}>SIGN UP</button>
+      <button class="text-white" on:click|preventDefault={() => goto('/login')}>LOGIN</button>
+    {/if}
+  </div>
+</header>
+
 <!-- Search Bar -->
 <div class="bg-gray-200 py-8">
   <div class="container mx-auto px-5">

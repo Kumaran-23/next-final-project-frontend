@@ -6,7 +6,31 @@
   import { page } from '$app/stores';
   import { accessTokenStore, userLoginForm } from '../../../utils/auth.js';
   import { showAlert } from '../../../alertStore.js';
+  import { goto } from '$app/navigation';
   export let data;
+
+  //header functions
+
+
+  onDestroy(() => {
+    // Clean up the subscription when the component is destroyed
+    unsubscribe();
+  });
+
+  onMount(async () => {
+    unsubscribe = accessTokenStore.subscribe(updateLoginStatus);
+    const storedAccessToken = localStorage.getItem('accessToken');
+    updateLoginStatus(storedAccessToken);
+
+    // Fetch all provider profiles on component mount
+    const response = await fetch(PUBLIC_BACKEND_BASE_URL + '/providers');
+    if (response.ok) {
+      const data = await response.json();
+      providers.set(data);
+      filteredProviders.set(data);
+    }
+  });
+
 
   console.log(data)
   
@@ -130,6 +154,18 @@
   }
 </script>
 
+<header class="header flex justify-between items-center py-4 px-6">
+  <div class="logo text-white text-xl font-bold">NeatFreak</div>
+  <div class="flex space-x-4">
+    {#if $isLoggedIn}
+      <button class="text-white" on:click={() => handleLogout()}>SIGN OUT</button>
+    {:else}
+      <button class="text-white" on:click|preventDefault={() => goto('/sign-up')}>SIGN UP</button>
+      <button class="text-white" on:click|preventDefault={() => goto('/login')}>LOGIN</button>
+    {/if}
+  </div>
+</header>
+
 <style>
   .custom-container {
     display: flex;
@@ -167,6 +203,11 @@
     padding: 2rem;
     border-radius: 4px;
   }
+  
+  .header {
+    background-color: black;
+  }
+    
 </style>
 
 <div class="antialiased bg-gray-50 dark:bg-gray-900">

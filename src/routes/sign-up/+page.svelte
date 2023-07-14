@@ -2,7 +2,7 @@
     //import { navigate } from 'svelte-routing';
   
     function handleProviderSignUp() {
-        window.location.href = '/provider/new';
+        window.location.href = '/provider/sign-up';
     }
   
     function handleUserSignUp() {
