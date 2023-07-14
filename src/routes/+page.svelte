@@ -95,34 +95,21 @@
     filteredProviders.set(filtered);
   }
 
-   // Add CSS class to the <ul> element
-    let profileListClass = 'profile-list';
+  // Add CSS class to the <ul> element
+  let profileListClass = 'profile-list';
 
-// Calculate the number of profiles per row
-let profilesPerRow = 4;
-let profilesRowCount = Math.ceil($filteredProviders.length / profilesPerRow);
+  // Calculate the number of profiles per row
+  let profilesPerRow = 4;
+  let profilesRowCount = Math.ceil($filteredProviders.length / profilesPerRow);
 
-// Calculate the width percentage for each profile in a row
-let profileWidthPercentage = 100 / profilesPerRow;
+  // Calculate the width percentage for each profile in a row
+  let profileWidthPercentage = 100 / profilesPerRow;
 
-// Calculate the width percentage for the last row if it has fewer profiles
-let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
-
-
+  // Calculate the width percentage for the last row if it has fewer profiles
+  let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
 </script>
 
-<header class="header flex justify-between items-center py-4 px-6">
-  <div class="logo text-white text-xl font-bold">Next Academy Project</div>
-  <div class="flex space-x-4">
-    {#if $isLoggedIn}
-      <button class="text-white" on:click={() => handleLogout()}>SIGN OUT</button>
-    {:else}
-      <button class="text-white" on:click|preventDefault={() => goto('/sign-up')}>SIGN UP</button>
-      <button class="text-white" on:click|preventDefault={() => goto('/login')}>LOGIN</button>
-    {/if}
-  </div>
-</header>
-
+<!-- Search Bar -->
 <div class="bg-gray-200 py-8">
   <div class="container mx-auto px-5">
     <form on:submit|preventDefault={searchProviders} class="flex flex-wrap ">
@@ -133,8 +120,8 @@ let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
       <div class="flex items-center mr-4 mb-4 ">
         <label for="start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
         <select id="start_time" bind:value={start_time} required class="input input-bordered ml-2 bg-gray-300">
-          {#each time as t}
-            <option value={t.id}>{t.t}</option>
+          {#each time as t}  
+          <option value={t.id}>{t.t}</option>
           {/each}
         </select>
       </div>
@@ -157,32 +144,37 @@ let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
   </div>
 </div>
 
-
-
-
 <h1 class="text-center text-xl font-bold">Book Your Cleaning Services Now!</h1>
 
-
-<div class="container mx-auto py-10 px-5">
-  <ul class="{profileListClass}">
-    {#each $filteredProviders as provider, index}
-      <li class="profile-card" style="width: {index >= profilesPerRow * (profilesRowCount - 1) ? lastRowWidthPercentage : profileWidthPercentage}%">
-        <div class="profile-card-inner">
-          <div class="profile-image-container">
+<div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+  <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-4">
+    <ul class="{profileListClass}">
+      {#each $filteredProviders as provider, index}
+        <li class="max-w-sm h-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <a href="/provider-profile/{provider.id}">
+            <img class="rounded-t-lg" src="{provider.photo_url}" alt="profile photo" />
+          </a>
+          <div class="p-5">
             <a href="/provider-profile/{provider.id}">
-              <img src={provider.photo_url} alt="" class="profile-image">
+              <span class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{provider.name}</span>
+              <span class="mb-2 bg-green-100 text-green-800 text-xs font-medium ml-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Verified</span>
+              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">RM{provider.hourly_rate}/hour</p>
+              <div class="justify-end flex items-center">
+                <svg class="w-4 h-4 text-yellow-300 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                </svg>
+                <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">4.95</p>
+                <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                <p class="text-sm font-medium text-gray-900 underline dark:text-white">10+ reviews</p>
+              </div>
             </a>
           </div>
-          <div class="profile-info">
-            <h2>{provider.name}</h2>
-            <p>{provider.description}</p>
-            <p>{provider.hourly_rate}</p>
-          </div>
-        </div>
-      </li>
-    {/each}
-  </ul>
+        </li>
+      {/each}
+    </ul>
+  </div>
 </div>
+
 
 
 <style>
