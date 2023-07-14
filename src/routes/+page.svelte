@@ -109,8 +109,46 @@
   let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
 </script>
 
+<section class="bg-gradient-to-br from-green-400 to-blue-600">
+  <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
+    <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl text-white">Cleaning has never been easier</h1>
+    <p class="mb-8 text-lg font-normal text-white lg:text-xl sm:px-16 xl:px-48">Book a cleaner in 3 easy steps! Your house will be sparkling clean soon.</p>
+    <div class="container mx-auto px-5 sm:px-0">
+      <form on:submit|preventDefault={searchProviders} class="flex flex-wrap justify-center sm:flex-row sm:space-x-4">
+        <div class="flex items-center w-full sm:w-auto mb-4 sm:mb-0 sm:mr-4">
+          <label for="date" class="block text-sm font-medium text-white">Date</label>
+          <DateInput bind:value={day} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ml-2 w-full sm:w-auto" />
+        </div>
+        <div class="flex items-center w-full sm:w-auto mb-4 sm:mb-0 sm:mr-4">
+          <label for="start_time" class="block text-sm font-medium text-white">Start Time</label>
+          <select id="start_time" bind:value={start_time} required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ml-2 w-full sm:w-auto">
+            {#each time as t}  
+            <option value={t.id}>{t.t}</option>
+            {/each}
+          </select>
+        </div>
+        <div class="flex items-center w-full sm:w-auto mb-4 sm:mb-0 sm:mr-4">
+          <label for="end_time" class="block text-sm font-medium text-white">End Time</label>
+          <select id="end_time" bind:value={end_time} required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ml-2 w-full sm:w-auto">
+            {#each time as t}
+              <option value={t.id}>{t.t}</option>
+            {/each}
+          </select>
+        </div>
+        <div class="flex items-center w-full sm:w-auto mb-4 sm:mb-0 sm:mr-4">
+          <label for="address" class="block text-sm font-medium text-white">Address</label>
+          <input id="address" bind:value={userAddress} type="text" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ml-2 w-full sm:w-auto" />
+        </div>
+        <div class="flex items-center w-full sm:w-auto">
+          <button type="submit" class="w-full text-white bg-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search Providers</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- Search Bar -->
-<div class="bg-gray-200 py-8">
+<!-- <div class="bg-gray-200 py-8">
   <div class="container mx-auto px-5">
     <form on:submit|preventDefault={searchProviders} class="flex flex-wrap ">
       <div class="flex items-center mr-4 mb-4 ">
@@ -142,9 +180,7 @@
       </div>
     </form>
   </div>
-</div>
-
-<h1 class="text-center text-xl font-bold">Book Your Cleaning Services Now!</h1>
+</div> -->
 
 <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
   <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-4">
@@ -175,9 +211,7 @@
   </div>
 </div>
 
-
-
-<style>
+<!-- <style>
   .header {
     background-color: black;
   }
@@ -224,5 +258,4 @@
     object-fit: cover;
     border-radius: 50%;
   }
-
-</style>
+</style> -->
