@@ -2,7 +2,8 @@
   import { alertStore, showAlert } from '../../alertStore.js'
   import Alert from '../../Alert.svelte'
   import { writable } from 'svelte/store';
-  import { providerLogin } from '../../utils/auth.js'
+  import { goto } from '$app/navigation';
+  import { getTokenFromLocalStorage, providerLogin } from '../../utils/auth.js'
 
   let email = '';
   let password = '';
@@ -15,6 +16,7 @@
 
     if (response.status === 200) {
       showAlert('Login successful!', 'success');
+      goto('/provider/availability')
     } else {
       showAlert('Incorrect email or password', 'failure')
     }

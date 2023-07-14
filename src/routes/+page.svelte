@@ -160,7 +160,7 @@
 
 <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
   <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-4">
-    <ul class="flex flex-wrap">
+    <ul class="{profileListClass}">
       {#each $filteredProviders as provider, index}
         <li class="max-w-sm h-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           <a href="/provider-profile/{provider.id}">
@@ -186,3 +186,53 @@
     </ul>
   </div>
 </div>
+
+<style>
+  .header {
+    background-color: black;
+  }
+
+  /* form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+  } */
+
+  .profile-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the profile cards horizontally */
+  gap: 2rem;
+  list-style-type: none;
+  padding: 0;
+}
+
+  .profile-card {
+    border: 0px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 300px; /* Adjust the max-width */
+    max-height: 100px;
+    position: relative;
+  }
+
+  .profile-card-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .profile-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+</style>
