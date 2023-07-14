@@ -85,7 +85,7 @@ onMount(async () => {
             </a>
         </div>
         <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png" alt="mockup">
+            <img src="https://media.istockphoto.com/id/518586238/photo/commercial-cleaning-contractors.jpg?s=612x612&w=0&k=20&c=7MJ8TJRs_EotZw3rPNicWBkgLjECiigOg7_nOkTyylU=" alt="mockup">
         </div>                
     </div>
 </section>
