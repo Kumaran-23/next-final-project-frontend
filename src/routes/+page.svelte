@@ -58,7 +58,10 @@
   let unsubscribe;
 
   function updateLoginStatus(accessToken) {
-    isLoggedIn.set(!!accessToken);
+    if(accessToken) {
+      isLoggedIn.set(true);
+      console.log($isLoggedIn);
+    }
   }
 
   onDestroy(() => {
@@ -83,6 +86,7 @@
   async function handleLogout() {
     logout();
     isLoggedIn.set(false);
+    console.log($isLoggedIn);
     await goto('/');
   }
 
@@ -104,18 +108,6 @@
   // Calculate the width percentage for the last row if it has fewer profiles
   let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
 </script>
-
-<header class="header flex justify-between items-center py-4 px-6">
-  <div class="logo text-white text-xl font-bold">Next Academy Project</div>
-  <div class="flex space-x-4">
-    {#if $isLoggedIn}
-      <button class="text-white" on:click={() => handleLogout()}>SIGN OUT</button>
-    {:else}
-      <button class="text-white" on:click|preventDefault={() => goto('/sign-up')}>SIGN UP</button>
-      <button class="text-white" on:click|preventDefault={() => goto('/login')}>LOGIN</button>
-    {/if}
-  </div>
-</header>
 
 <!-- Search Bar -->
 <div class="bg-gray-200 py-8">
@@ -182,6 +174,8 @@
     </ul>
   </div>
 </div>
+
+
 
 <style>
   .header {
