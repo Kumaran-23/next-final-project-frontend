@@ -147,44 +147,9 @@
   </div>
 </section>
 
-<!-- Search Bar -->
-<!-- <div class="bg-gray-200 py-8">
-  <div class="container mx-auto px-5">
-    <form on:submit|preventDefault={searchProviders} class="flex flex-wrap ">
-      <div class="flex items-center mr-4 mb-4 ">
-        <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
-        <DateInput bind:value={day} class="bg-gray-300 input input-bordered ml-2 " />
-      </div>
-      <div class="flex items-center mr-4 mb-4 ">
-        <label for="start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
-        <select id="start_time" bind:value={start_time} required class="input input-bordered ml-2 bg-gray-300">
-          {#each time as t}  
-          <option value={t.id}>{t.t}</option>
-          {/each}
-        </select>
-      </div>
-      <div class="flex items-center mr-4 mb-4 ">
-        <label for="end_time" class="block text-sm font-medium text-gray-700">End Time</label>
-        <select id="end_time" bind:value={end_time} required class="bg-gray-300 input input-bordered ml-2">
-          {#each time as t}
-            <option value={t.id}>{t.t}</option>
-          {/each}
-        </select>
-      </div>
-      <div class="flex items-center mr-4 mb-4">
-        <label for="address" class="block text-sm font-medium text-gray-700 qe ">Address</label>
-        <input id="address" bind:value={userAddress} type="text" required class="input input-bordered ml-2 bg-gray-300" />
-      </div>
-      <div class="flex items-center mb-4">
-        <button type="submit" class="w-full text-white bg-zinc-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Search Providers</button>
-      </div>
-    </form>
-  </div>
-</div> -->
-
 <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
   <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-4">
-    <ul class="{profileListClass}">
+    <ul class="flex flex-wrap">
       {#each $filteredProviders as provider, index}
         <li class="max-w-sm h-auto bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           <a href="/provider-profile/{provider.id}">
@@ -210,52 +175,3 @@
     </ul>
   </div>
 </div>
-
-<!-- <style>
-  .header {
-    background-color: black;
-  }
-
-  /* form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 400px;
-    margin: 0 auto;
-  } */
-
-  .profile-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Center the profile cards horizontally */
-  gap: 5rem;
-  list-style-type: none;
-  padding: 0;
-}
-
-  .profile-card {
-    border: 0px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 0.75rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    max-width: 300px; /* Adjust the max-width */
-    max-height: 100px;
-    position: relative;
-  }
-
-  .profile-card-inner {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-  }
-
-  .profile-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-</style> -->
