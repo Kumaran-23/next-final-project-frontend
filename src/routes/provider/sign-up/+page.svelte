@@ -30,6 +30,7 @@
       name: evt.target['name'].value,
       email: evt.target['email'].value,
       password: evt.target['password'].value,
+      description: evt.target['description'].value),
       hourly_rate: parseInt(evt.target['hourly_rate'].value),
       photo_url: fileUrl
     };
@@ -116,6 +117,10 @@
                 <span class="label-text-alt mb-2 text-sm font-medium text-red-400">{formErrors['hourly_rate']}</span>
             </label>
             {/if}
+          </div>
+          <div>
+            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+            <input type="text" name="description" id="description" placeholder="15" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
           </div>
           <div>      
             <label for="file" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile Photo</label>
