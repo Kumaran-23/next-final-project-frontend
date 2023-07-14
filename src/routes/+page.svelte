@@ -58,7 +58,10 @@
   let unsubscribe;
 
   function updateLoginStatus(accessToken) {
-    isLoggedIn.set(!!accessToken);
+    if(accessToken) {
+      isLoggedIn.set(true);
+      console.log($isLoggedIn);
+    }
   }
 
   onDestroy(() => {
@@ -83,6 +86,7 @@
   async function handleLogout() {
     logout();
     isLoggedIn.set(false);
+    console.log($isLoggedIn);
     await goto('/');
   }
 
@@ -104,18 +108,6 @@
   // Calculate the width percentage for the last row if it has fewer profiles
   let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
 </script>
-
-<header class="header flex justify-between items-center py-4 px-6">
-  <div class="logo text-white text-xl font-bold">Next Academy Project</div>
-  <div class="flex space-x-4">
-    {#if $isLoggedIn}
-      <button class="text-white" on:click={() => handleLogout()}>SIGN OUT</button>
-    {:else}
-      <button class="text-white" on:click|preventDefault={() => goto('/sign-up')}>SIGN UP</button>
-      <button class="text-white" on:click|preventDefault={() => goto('/login')}>LOGIN</button>
-    {/if}
-  </div>
-</header>
 
 <!-- Search Bar -->
 <div class="bg-gray-200 py-8">
@@ -182,56 +174,6 @@
     </ul>
   </div>
 </div>
-
-<!-- <section class="container mx-auto py-10 px-5 bg-white dark:bg-gray-900">
-  <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-4 py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-    {#each $filteredProviders as provider, index}
-      <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 profile-card">
-        <a href="/provider-profile/{provider.id}">
-          <img class="rounded-t-lg" src={provider.photo_url} alt="" />
-        </a>
-        <div class="p-5 profile-card-inner">
-          <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{provider.name}</h2>
-          <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Verified</span>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">RM{provider.hourly_rate} per hour</p>
-          <div class="my-3 justify-end flex items-center">
-            <svg class="w-4 h-4 text-yellow-300 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-            </svg>
-            <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">4.95</p>
-            <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-            <a href="/provider-profile/{provider.id}" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">10+ reviews</a>
-          </div>
-        </div>
-      </div>
-    {/each}
-  </div>
-</section> -->
-
-
-
-
-
-        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          <a href="#">
-              <img class="rounded-t-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="" />
-          </a>
-          <div class="p-5">
-              <a href="#">
-                  <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Bonnie Green</h5>
-                  <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Verified</span>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">RM15/hour</p>
-                  <div class="my-3 justify-end flex items-center">
-                    <svg class="w-4 h-4 text-yellow-300 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                    </svg>
-                    <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">4.95</p>
-                    <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                    <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">73 reviews</a>
-                  </div>
-                </a>
-          </div>
-        </div>
 
 
 
