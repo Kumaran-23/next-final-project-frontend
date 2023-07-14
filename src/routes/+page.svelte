@@ -103,8 +103,6 @@ let profileWidthPercentage = 100 / profilesPerRow;
 
 // Calculate the width percentage for the last row if it has fewer profiles
 let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
-
-
 </script>
 
 <header class="header flex justify-between items-center py-4 px-6">
@@ -119,39 +117,42 @@ let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
   </div>
 </header>
 
-<div class="container mx-auto py-10 px-5">
-  <form on:submit|preventDefault={searchProviders} class="space-y-4">
-    <div class="relative max-w-sm">
-      <DateInput bind:value={day} />
-      <div>
+<!-- Search Bar -->
+<div class="bg-gray-200 py-8">
+  <div class="container mx-auto px-5">
+    <form on:submit|preventDefault={searchProviders} class="flex flex-wrap ">
+      <div class="flex items-center mr-4 mb-4 ">
+        <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+        <DateInput bind:value={day} class="bg-gray-300 input input-bordered ml-2 " />
+      </div>
+      <div class="flex items-center mr-4 mb-4 ">
         <label for="start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
-        <select id="start_time" bind:value={start_time} required class="select select-bordered w-full max-w-xs">
-          {#each time as t}
-            <option value={t.id}>{t.t}</option>
+        <select id="start_time" bind:value={start_time} required class="input input-bordered ml-2 bg-gray-300">
+          {#each time as t}  
+          <option value={t.id}>{t.t}</option>
           {/each}
         </select>
       </div>
-      <div>
+      <div class="flex items-center mr-4 mb-4 ">
         <label for="end_time" class="block text-sm font-medium text-gray-700">End Time</label>
-        <select id="end_time" bind:value={end_time} required class="select select-bordered w-full max-w-xs">
+        <select id="end_time" bind:value={end_time} required class="bg-gray-300 input input-bordered ml-2">
           {#each time as t}
             <option value={t.id}>{t.t}</option>
           {/each}
         </select>
       </div>
-      <div>
-        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-        <input id="address" bind:value={userAddress} type="text" required class="block w-full p-3 border border-gray-300 rounded-md">
+      <div class="flex items-center mr-4 mb-4">
+        <label for="address" class="block text-sm font-medium text-gray-700 qe ">Address</label>
+        <input id="address" bind:value={userAddress} type="text" required class="input input-bordered ml-2 bg-gray-300" />
       </div>
-      <div>
-        <button type="submit" class="w-full p-3 bg-blue-600 text-white rounded-md">Search Providers</button>
+      <div class="flex items-center mb-4">
+        <button type="submit" class="w-full text-white bg-zinc-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Search Providers</button>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 
 <h1 class="text-center text-xl font-bold">Book Your Cleaning Services Now!</h1>
-
 
 <div class="container mx-auto py-10 px-5">
   <ul class="{profileListClass}">
@@ -174,19 +175,72 @@ let lastRowWidthPercentage = 100 / ($filteredProviders.length % profilesPerRow);
   </ul>
 </div>
 
+<!-- <section class="container mx-auto py-10 px-5 bg-white dark:bg-gray-900">
+  <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-4 py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+    {#each $filteredProviders as provider, index}
+      <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 profile-card">
+        <a href="/provider-profile/{provider.id}">
+          <img class="rounded-t-lg" src={provider.photo_url} alt="" />
+        </a>
+        <div class="p-5 profile-card-inner">
+          <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{provider.name}</h2>
+          <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Verified</span>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">RM{provider.hourly_rate} per hour</p>
+          <div class="my-3 justify-end flex items-center">
+            <svg class="w-4 h-4 text-yellow-300 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+            </svg>
+            <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">4.95</p>
+            <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+            <a href="/provider-profile/{provider.id}" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">10+ reviews</a>
+          </div>
+        </div>
+      </div>
+    {/each}
+  </div>
+</section> -->
+
+
+
+<section class="bg-white dark:bg-gray-900">
+  <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
+      <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-4">
+        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <a href="#">
+              <img class="rounded-t-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="" />
+          </a>
+          <div class="p-5">
+              <a href="#">
+                  <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Bonnie Green</h5>
+                  <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Verified</span>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">RM15/hour</p>
+                  <div class="my-3 justify-end flex items-center">
+                    <svg class="w-4 h-4 text-yellow-300 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                    </svg>
+                    <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">4.95</p>
+                    <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                    <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">73 reviews</a>
+                  </div>
+                </a>
+          </div>
+        </div>
+      </div>  
+  </div>
+</section>
 
 <style>
   .header {
     background-color: black;
   }
 
-  form {
+  /* form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     max-width: 400px;
     margin: 0 auto;
-  }
+  } */
 
   .profile-list {
   display: flex;
